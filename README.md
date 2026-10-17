@@ -16,6 +16,16 @@
 - **双通道投递**：输入框引用 chip（主）+ host 路由上下文块（兜底）；发送后消息里仍显示为 chip。
 - **悬停联动**：输入框里悬停 chip，预览中对应标记变为黄色光晕。
 
+## 大文件（> 32 MB）
+
+DSH 的文档读取层对单页有 32 MB 上限（`error.tooLarge`），超过时任何 `bytes-complete`
+预览都拿不到内容。本插件为此额外注册了一个 **「指代页·大文件」** 渲染器：
+
+- 使用 `loading: 'renderer'` 模式：正文在读取任何字节前挂载，由插件自己的 host 路由直接读盘，绕过 32 MB 限制
+- 在预览头部右侧的渲染器下拉里手动切换即可（默认仍是「指代页」，小文件不受影响）
+- 已实测 41.3 MB 单页 HTML：host 读取 + 内联 752 ms，正常渲染并可指代
+- 限制：源码超过 8 MB 时不回传原文，因此 `SourceLocation` 只有路径、没有行号
+
 ## 环境要求
 
 - Windows
@@ -33,13 +43,18 @@
    https://github.com/Phonky-Chou/dsh-pointer
    ```
 
-   国内网络可用 Gitee 镜像：
+   国内网络可用 Gitee 镜像（**必须带 `.git` 结尾**）：
 
    ```
-   https://gitee.com/z_xl7974/dsh-pointer
+   https://gitee.com/z_xl7974/dsh-pointer.git
    ```
 
-3. 安装完成后**重启 DeepSeek Harness**
+   > pnpm 只把 `.git` 结尾或 `git+https://` 开头的地址当 git 仓库；
+   > 漏掉 `.git` 会被当成压缩包去抓，安装报 `ERR_PNPM_TARBALL_EXTRACT`。
+
+3. 安装完成后点对话框里的**立即启用**（没有这个按钮就忽略，见下一步）
+4. **重启 DeepSeek Harness**；重启后到 **插件 → dsh-pointer** 确认开关是打开状态
+   （开关关闭时插件只是「已安装」，预览不会出现指代器）
 
 ### 方式二：一键脚本（命令行）
 
@@ -61,6 +76,12 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1 -Uninstall
 
 ```sh
 dsh plugin --profile desktop add <repo路径或 github:Phonky-Chou/dsh-pointer>
+```
+
+Gitee 镜像要写全（带 `.git`）：
+
+```sh
+dsh plugin --profile desktop add https://gitee.com/z_xl7974/dsh-pointer.git
 ```
 
 装完都需要**重启 DeepSeek Harness**：host 与客户端包都在启动时加载。
