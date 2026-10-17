@@ -1,6 +1,10 @@
 # dsh-pointer — 在 DSH 预览里提供「指代器」。
 # 注册自己的文档预览实现（priority: extension 排在内置之上，内置仍可从下拉切回），
 # 在 srcdoc 沙箱里注入探针，用 postMessage 回传选中元素。
+#
+# 注意：下面的 name 必须是本机 lib/index.js 的绝对路径。
+# 仓库里默认是占位符，请运行 install.ps1 自动填写：
+#   powershell -ExecutionPolicy Bypass -File .\install.ps1
 - insert:
   - id: dsh-pointer
-    name: C:/Users/Windows/Documents/deepseek-harness/default-workspace/dsh-pointer/lib/index.js
+    name: __DSH_POINTER_ENTRY__
