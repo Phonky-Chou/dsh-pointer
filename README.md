@@ -33,13 +33,18 @@
    https://github.com/Phonky-Chou/dsh-pointer
    ```
 
-   国内网络可用 Gitee 镜像：
+   国内网络可用 Gitee 镜像（**必须带 `.git` 结尾**）：
 
    ```
-   https://gitee.com/z_xl7974/dsh-pointer
+   https://gitee.com/z_xl7974/dsh-pointer.git
    ```
 
-3. 安装完成后**重启 DeepSeek Harness**
+   > pnpm 只把 `.git` 结尾或 `git+https://` 开头的地址当 git 仓库；
+   > 漏掉 `.git` 会被当成压缩包去抓，安装报 `ERR_PNPM_TARBALL_EXTRACT`。
+
+3. 安装完成后点对话框里的**立即启用**（没有这个按钮就忽略，见下一步）
+4. **重启 DeepSeek Harness**；重启后到 **插件 → dsh-pointer** 确认开关是打开状态
+   （开关关闭时插件只是「已安装」，预览不会出现指代器）
 
 ### 方式二：一键脚本（命令行）
 
@@ -61,6 +66,12 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1 -Uninstall
 
 ```sh
 dsh plugin --profile desktop add <repo路径或 github:Phonky-Chou/dsh-pointer>
+```
+
+Gitee 镜像要写全（带 `.git`）：
+
+```sh
+dsh plugin --profile desktop add https://gitee.com/z_xl7974/dsh-pointer.git
 ```
 
 装完都需要**重启 DeepSeek Harness**：host 与客户端包都在启动时加载。
