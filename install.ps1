@@ -1,4 +1,4 @@
-<#
+﻿<#
 install.ps1 - 把 dsh-pointer（指代器）挂到 DeepSeek Harness 的 profile。
 
 在克隆下来的仓库目录里运行即可；重复运行会刷新，可安全重跑。
