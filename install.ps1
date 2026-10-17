@@ -1,8 +1,8 @@
 ﻿<#
-install.ps1 - 把 dsh-pointer（指代器）挂到 DeepSeek Harness 的 profile。
+install.ps1 - 把 dsh-pointer（指代器）装进 DeepSeek Harness。
 
-在克隆下来的仓库目录里运行即可；重复运行会刷新，可安全重跑。
-加 -Uninstall 则从 profile 卸载（仓库文件不动）。
+可选脚本：插件管理（插件 -> 添加插件 -> 填 GitHub 地址）是更简单的方式。
+本脚本适合想用命令行、或想指定非 desktop profile 的场景。可安全重复运行。
 
 用法：
   powershell -ExecutionPolicy Bypass -File .\install.ps1
@@ -23,8 +23,6 @@ param(
 $ErrorActionPreference = 'Stop'
 
 $PluginName = 'dsh-pointer'
-$PatchPath = Join-Path $RepoDir 'cordis.patch.yml'
-$EntryPath = (($RepoDir -replace '\\', '/').TrimEnd('/')) + '/lib/index.js'
 
 function Write-Step([string]$Message) { Write-Host ('==> ' + $Message) -ForegroundColor Cyan }
 function Write-Note([string]$Message) { Write-Host ('    ' + $Message) -ForegroundColor DarkGray }
@@ -50,25 +48,6 @@ function Get-DshInstallDir {
         }
     }
     return $null
-}
-
-# 改写 cordis.patch.yml 里的 name 为本机绝对路径（上游仓库里是占位符）
-function Update-PatchEntry {
-    if (-not (Test-Path $PatchPath)) { Fail ('未找到 ' + $PatchPath) }
-    $lines = Get-Content -Path $PatchPath -Encoding UTF8
-    $replaced = $false
-    $output = foreach ($line in $lines) {
-        if ($line -match '^\s*-\s*id:\s*' + [regex]::Escape($PluginName) + '\s*$') { $line }
-        elseif ($line -match '^\s*name:\s*\S') {
-            $replaced = $true
-            '    name: ' + $EntryPath
-        }
-        else { $line }
-    }
-    if (-not $replaced) { Fail ('cordis.patch.yml 里没有找到 name 行，请检查仓库完整性') }
-    $text = ($output -join "`n") + "`n"
-    [System.IO.File]::WriteAllText($PatchPath, $text, (New-Object System.Text.UTF8Encoding($false)))
-    Write-Note ('插件入口: ' + $EntryPath)
 }
 
 $installDir = Get-DshInstallDir
@@ -97,15 +76,12 @@ if ($Uninstall) {
     exit 0
 }
 
-# 前置检查：插件产物必须齐全（本仓库不提交构建步骤，lib/ 是源码直发）
-foreach ($file in @('lib\index.js', 'lib\inline.js', 'lib\client.js', 'package.json')) {
+# 前置检查：仓库已包含可直接运行的产物（无需构建、无第三方依赖）
+foreach ($file in @('lib\index.js', 'lib\inline.js', 'lib\client.js', 'package.json', 'cordis.patch.yml')) {
     if (-not (Test-Path (Join-Path $RepoDir $file))) {
         Fail ('仓库不完整，缺少 ' + $file + '。请确认是从 git 完整克隆的。')
     }
 }
-
-Write-Step '正在写入本机插件路径...'
-Update-PatchEntry
 
 Write-Step '正在安装到 profile...'
 & $cli plugin --profile $Profile add $RepoDir

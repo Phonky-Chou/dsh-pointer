@@ -16,9 +16,32 @@
 - **双通道投递**：输入框引用 chip（主）+ host 路由上下文块（兜底）；发送后消息里仍显示为 chip。
 - **悬停联动**：输入框里悬停 chip，预览中对应标记变为黄色光晕。
 
-## 安装（Windows）
+## 环境要求
 
-前提：DeepSeek Harness 桌面版已安装，并**至少启动过一次**（需要它生成 profile 配置）。
+- Windows
+- DeepSeek Harness 桌面版（验证于 `0.2.0-rc.2`），并**至少启动过一次**
+- 无需构建、无第三方依赖（`lib/` 是可直接运行的产物）
+
+## 安装
+
+### 方式一：插件管理（最简单，推荐）
+
+1. DSH 左侧栏点 **插件** → 右上角 **添加插件**
+2. 输入本仓库地址：
+
+   ```
+   https://github.com/Phonky-Chou/dsh-pointer
+   ```
+
+   国内网络可用 Gitee 镜像：
+
+   ```
+   https://gitee.com/z_xl7974/dsh-pointer
+   ```
+
+3. 安装完成后**重启 DeepSeek Harness**
+
+### 方式二：一键脚本（命令行）
 
 ```powershell
 git clone https://github.com/Phonky-Chou/dsh-pointer.git
@@ -26,17 +49,7 @@ cd dsh-pointer
 powershell -ExecutionPolicy Bypass -File .\install.ps1
 ```
 
-脚本会自动完成三件事：
-
-1. 从注册表定位 DSH 安装目录
-2. 把 `cordis.patch.yml` 里的插件入口写成本机绝对路径
-3. 调用 DSH 自带的 CLI 把插件装进 `desktop` profile
-
-装完**重启 DeepSeek Harness**（host 与客户端包都在启动时加载）。
-
-> 脚本会本地改写 `cordis.patch.yml` 的入口路径，所以 `git status` 会显示该文件被修改 ——
-> 这是预期行为，提交时不用带上。
-
+脚本会自动定位 DSH 安装目录、调用 DSH 自带 CLI 装进 `desktop` profile。
 其它 profile / 卸载：
 
 ```powershell
@@ -44,14 +57,13 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1 -Profile desktop
 powershell -ExecutionPolicy Bypass -File .\install.ps1 -Uninstall
 ```
 
-<details>
-<summary>手动安装（脚本不适用时）</summary>
+### 方式三：手动
 
-1. 把 `cordis.patch.yml` 里的 `name` 改成本机 `<repo>/lib/index.js` 的绝对路径
-2. `dsh plugin --profile desktop add <repo>`
-3. 重启 DSH
+```sh
+dsh plugin --profile desktop add <repo路径或 github:Phonky-Chou/dsh-pointer>
+```
 
-</details>
+装完都需要**重启 DeepSeek Harness**：host 与客户端包都在启动时加载。
 
 ## 使用
 
@@ -68,7 +80,7 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1 -Uninstall
 - 探针只覆盖主 frame，不穿透嵌套 iframe；Shadow DOM 只能选到宿主元素。
 - 位图、canvas 内绘制的图形没有 DOM 元素可指代（只能框选区域坐标）。
 - 单个元素的 `outerHTML` 在上下文块里截断到 2KB。
-- 仅验证于 DeepSeek Harness `0.2.0-rc.2`（Windows）。
+- 仅验证于 Windows + DeepSeek Harness `0.2.0-rc.2`。
 
 ## 开发
 
@@ -78,7 +90,7 @@ lib/inline.js    host 侧相对资源内联（fs 直接读盘）
 lib/client.js    client 半边：预览实现、探针、chip 投递、渲染层 chip 装饰
 docs/DESIGN.md   技术底座设计（分层、协议、类型扩展方案）
 examples/        验证夹具（含外链 CSS / SVG / CSS 内 url()）
-install.ps1      一键安装/卸载
+install.ps1      可选的一键安装/卸载脚本
 ```
 
 ## License
