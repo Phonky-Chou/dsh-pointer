@@ -1,0 +1,6 @@
+# dsh-pointer — 在 DSH 预览里提供「指代器」。
+# 注册自己的文档预览实现（priority: extension 排在内置之上，内置仍可从下拉切回），
+# 在 srcdoc 沙箱里注入探针，用 postMessage 回传选中元素。
+- insert:
+  - id: dsh-pointer
+    name: C:/Users/Windows/Documents/deepseek-harness/default-workspace/dsh-pointer/lib/index.js

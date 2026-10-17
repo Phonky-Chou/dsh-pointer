@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>相对资源内联测试</title>
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <h1 id="t">外部样式 + 外部图片 内联测试</h1>
+  <p class="lead">如果你看到蓝色标题、浅蓝圆角卡片、一张图标、以及底部带图标的蓝色区块，说明三种内联路径都成功了。</p>
+  <div class="card">
+    <img id="pic" src="./logo.svg" width="64" height="64" alt="logo">
+    <ul>
+      <li><code>style.css</code> → 内联为 &lt;style&gt;</li>
+      <li><code>logo.svg</code> → 内联为 <code>data:</code> URL</li>
+      <li>蓝色区块的背景图 → CSS 里的 <code>url(./logo.svg)</code></li>
+    </ul>
+  </div>
+  <div class="bg">这个块用 CSS 的 url(./logo.svg) 作为背景图</div>
+</body>
+</html>
