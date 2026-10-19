@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aurora 数据看板</title>
+<style>
+  :root{
+    --bg:#f6f7fb; --card:#fff; --line:#e6e8ef; --text:#111827; --muted:#6b7280;
+    --accent:#4f46e5; --good:#10b981; --warn:#f59e0b; --bad:#ef4444;
+    --shadow:0 1px 2px rgba(16,24,40,.05);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:var(--bg); color:var(--text);
+    font:14px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,"Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .topbar{
+    display:flex; align-items:center; gap:14px;
+    padding:12px 26px; background:#fff; border-bottom:1px solid var(--line);
+  }
+  .logo{
+    width:28px; height:28px; border-radius:8px; flex:none;
+    background:linear-gradient(135deg,#6366f1,#22d3ee);
+    display:grid; place-items:center; color:#fff; font-weight:700; font-size:13px;
+  }
+  .brand{font-weight:650; letter-spacing:.2px}
+  .nav{display:flex; gap:18px; margin-left:14px; font-size:13px; color:var(--muted)}
+  .nav .on{color:var(--accent); font-weight:600}
+  .spacer{flex:1}
+  .status{font-size:12px; color:#047857; background:#ecfdf5; border-radius:999px; padding:2px 10px; font-weight:600}
+  .avatar{
+    width:26px; height:26px; border-radius:50%; background:#c7d2fe; color:#3730a3;
+    display:grid; place-items:center; font-size:11px; font-weight:700;
+  }
+  main{max-width:1120px; margin:0 auto; padding:22px 26px 40px}
+  h1{font-size:20px; margin:0 0 4px; letter-spacing:-.2px}
+  .sub{color:var(--muted); margin:0 0 18px; font-size:13px}
+  .kpis{display:grid; grid-template-columns:repeat(4,1fr); gap:14px}
+  .kpi{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px; box-shadow:var(--shadow)}
+  .kpi .t{color:var(--muted); font-size:12px}
+  .kpi .v{font-size:23px; font-weight:680; margin:4px 0 2px; letter-spacing:-.4px}
+  .kpi .d{font-size:12px}
+  .up{color:var(--good)} .down{color:var(--bad)}
+  .cols{display:grid; grid-template-columns:1.65fr 1fr; gap:14px; margin-top:14px}
+  .panel{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px 18px; box-shadow:var(--shadow)}
+  .panel h2{font-size:14px; margin:0 0 12px; font-weight:650}
+  table{width:100%; border-collapse:collapse; font-size:13px}
+  th{text-align:left; color:var(--muted); font-weight:500; font-size:12px; padding:6px 8px; border-bottom:1px solid var(--line)}
+  td{padding:9px 8px; border-bottom:1px solid #f1f3f8}
+  tr:last-child td{border-bottom:none}
+  .pill{display:inline-block; padding:1px 8px; border-radius:999px; font-size:11px; font-weight:600}
+  .ok{background:#ecfdf5; color:#047857}
+  .warn{background:#fffbeb; color:#b45309}
+  .fail{background:#fef2f2; color:#b91c1c}
+  .alerts{display:flex; flex-direction:column; gap:10px}
+  .alert{border:1px solid var(--line); border-radius:10px; padding:10px 12px; font-size:13px}
+  .alert b{display:block; font-size:12px; margin-bottom:2px}
+  .alert.w{border-left:3px solid var(--warn)}
+  .alert.e{border-left:3px solid var(--bad)}
+  .row{display:flex; align-items:center; gap:8px; margin-top:14px}
+  .btn{
+    display:inline-flex; align-items:center; gap:6px; border:none; cursor:pointer;
+    background:var(--accent); color:#fff; border-radius:8px; padding:7px 12px; font:inherit; font-size:13px; font-weight:600;
+  }
+  .btn.ghost{background:#fff; color:var(--text); border:1px solid var(--line)}
+  .foot{color:var(--muted); font-size:12px; margin-top:18px}
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="logo">A</div>
+    <div class="brand">Aurora</div>
+    <nav class="nav">
+      <span class="on">概览</span>
+      <span>部署</span>
+      <span>日志</span>
+      <span>告警</span>
+    </nav>
+    <div class="spacer"></div>
+    <span class="status">● 生产环境正常</span>
+    <div class="avatar">ZX</div>
+  </header>
+
+  <main>
+    <h1>Aurora 数据看板</h1>
+    <p class="sub">最近 24 小时 · 生产环境 · 最后更新 14:32</p>
+
+    <section class="kpis">
+      <div class="kpi">
+        <div class="t">今日活跃用户</div>
+        <div class="v">12,480</div>
+        <div class="d up">▲ 8.2% 相比昨日</div>
+      </div>
+      <div class="kpi">
+        <div class="t">接口成功率</div>
+        <div class="v">99.94%</div>
+        <div class="d up">▲ 0.03% 相比昨日</div>
+      </div>
+      <div class="kpi">
+        <div class="t">平均响应耗时</div>
+        <div class="v">184 ms</div>
+        <div class="d down">▼ 12 ms 相比昨日</div>
+      </div>
+      <div class="kpi">
+        <div class="t">未处理告警</div>
+        <div class="v">3</div>
+        <div class="d down">▼ 2 条 相比昨日</div>
+      </div>
+    </section>
+
+    <div class="cols">
+      <section class="panel">
+        <h2>最近部署</h2>
+        <table>
+          <thead>
+            <tr><th>版本</th><th>服务</th><th>提交</th><th>耗时</th><th>状态</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>v2.14.3</td><td>api-gateway</td><td>3f9c1a2</td><td>1m 42s</td><td><span class="pill ok">成功</span></td></tr>
+            <tr><td>v2.14.2</td><td>web-console</td><td>c81be07</td><td>2m 08s</td><td><span class="pill ok">成功</span></td></tr>
+            <tr><td>v2.14.1</td><td>worker-pool</td><td>7ad4f55</td><td>58s</td><td><span class="pill warn">已回滚</span></td></tr>
+            <tr><td>v2.14.0</td><td>ingest</td><td>e2d90c4</td><td>3m 21s</td><td><span class="pill ok">成功</span></td></tr>
+          </tbody>
+        </table>
+        <div class="row">
+          <button class="btn">查看全部部署</button>
+          <button class="btn ghost">导出 CSV</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>未处理告警</h2>
+        <div class="alerts">
+          <div class="alert e">
+            <b>错误率突增</b>
+            web-console 5xx 占比 0.8%，持续 6 分钟
+          </div>
+          <div class="alert w">
+            <b>响应变慢</b>
+            ingest 的 P99 从 240ms 升到 610ms
+          </div>
+          <div class="alert w">
+            <b>队列积压</b>
+            worker-pool 待处理任务 1,284 条
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <p class="foot">Aurora 是演示用的示例页面，数据均为虚构，仅用于展示「指代器」的元素级选取能力。</p>
+  </main>
+</body>
+</html>

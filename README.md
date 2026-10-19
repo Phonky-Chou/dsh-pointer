@@ -3,6 +3,16 @@
 在 DeepSeek Harness 的文档预览里直接「指代」UI 元素：**左键选中元素、右键拖拽框选区域**，
 把结构化信息 + **源码行号** 送进对话，模型据此精确定位要改的代码。
 
+## 演示
+
+预览里**左键选元素、右键拖拽框选区域**，编号标记与输入框 chip 一一对应：
+
+![指代器选中元素与区域](docs/screenshot-pick.png)
+
+选中的目标会变成输入框里的引用 chip，随消息一起发送：
+
+![引用 chip](docs/screenshot-chip.png)
+
 ## 收录信息
 
 - **一句话价值**：在 DSH 的 HTML 预览里直接圈选 DOM 元素 / 拖框选区域，把选择器与 `文件:行号` 精确交给 agent —— 不用再向模型描述「那个卡片」。
@@ -136,6 +146,9 @@ dsh plugin --profile desktop add https://gitee.com/z_xl7974/dsh-pointer.git
 
 `▾` 展开角标可查看探针状态、本次已选数量，并可一键清除全部标记。
 
+> **第一次打开文件时**：DSH 会先在对话里给出一个**蓝色文件链接**，点它才会在右侧打开预览面板。
+> 指代器只存在于预览面板里 —— 所以看不到 `◉ 指代器` 时，先确认预览面板已经打开。
+
 ## 已知限制
 
 - 目前只接管 `html` / `htm`；`md` / `txt` / `svg` / PDF 等尚未接入（后续按 provider 扩展）。
@@ -151,8 +164,9 @@ lib/index.js     host 半边：上下文块 + `/dsh-pointer/pick`、`/dsh-pointe
 lib/inline.js    host 侧相对资源内联（fs 直接读盘）
 lib/client.js    client 半边：预览实现、探针、chip 投递、渲染层 chip 装饰
 docs/DESIGN.md   技术底座设计（分层、协议、类型扩展方案）
-examples/        验证夹具（含外链 CSS / SVG / CSS 内 url()）
-install.ps1      可选的一键安装/卸载脚本
+examples/with-assets/  资源内联验证夹具（外链 CSS / SVG / CSS 内 url()）
+examples/demo/         截图演示页（Aurora 数据看板，中性内容）
+install.ps1       可选的一键安装/卸载脚本
 ```
 
 ## License
