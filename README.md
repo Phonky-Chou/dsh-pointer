@@ -140,7 +140,10 @@ dsh plugin --profile desktop add https://gitee.com/z_xl7974/dsh-pointer.git
 ## 使用
 
 1. 在 DSH 右侧栏用**预览**方式打开一个 `.html` 文件（默认会走「指代页」渲染器）。
-2. 点顶部工具栏的 **`◉ 指代器`** 进入指代模式。
+2. 点顶部工具栏的 **`◉ 指代器`** 进入指代模式 —— 按钮位置：
+
+   ![指代器按钮位置](docs/screenshot-position.png)
+
 3. **左键**点页面元素 → 输入框出现「元素N」；**右键拖拽**框选区域 → 出现「区域N」。
 4. 把 chip 写进句子发送；模型收到选择器、标签、文本、outerHTML 与 `文件:行:列`。
 
