@@ -102,6 +102,9 @@ host 处理文档的内存开销约为文件大小的 **6~7 倍**，因此默认
 
    > pnpm 只把 `.git` 结尾或 `git+https://` 开头的地址当 git 仓库；
    > 漏掉 `.git` 会被当成压缩包去抓，安装报 `ERR_PNPM_TARBALL_EXTRACT`。
+   >
+   > 如果 HTTPS 地址失败，**不要**改用 `github:Phonky-Chou/dsh-pointer` 这种速记 ——
+   > 实测在部分网络下它会因 `git ls-remote` 失败而报错；`https://` 全写形式反而更稳。
 
 3. 安装完成后点对话框里的**立即启用**（没有这个按钮就忽略，见下一步）
 4. **重启 DeepSeek Harness**；重启后到 **插件 → dsh-pointer** 确认开关是打开状态
