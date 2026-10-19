@@ -3,6 +3,9 @@
 在 DeepSeek Harness 的文档预览里直接「指代」UI 元素：**左键选中元素、右键拖拽框选区域**，
 把结构化信息 + **源码行号** 送进对话，模型据此精确定位要改的代码。
 
+[![npm](https://img.shields.io/npm/v/dsh-pointer)](https://www.npmjs.com/package/dsh-pointer)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+
 ## 演示
 
 预览里**左键选元素、右键拖拽框选区域**，编号标记与输入框 chip 一一对应：
@@ -18,8 +21,10 @@
 - **一句话价值**：在 DSH 的 HTML 预览里直接圈选 DOM 元素 / 拖框选区域，把选择器与 `文件:行号` 精确交给 agent —— 不用再向模型描述「那个卡片」。
 - **能力分类**：界面与体验（interface）
 - **安装命令**：
-  - 源码安装（无需 NPM）：`dsh plugin --profile desktop add github:Phonky-Chou/dsh-pointer`
+  - NPM 一键安装（推荐）：`dsh plugin --profile desktop add dsh-pointer`
+  - 源码安装：`dsh plugin --profile desktop add https://github.com/Phonky-Chou/dsh-pointer`
   - 本地安装：`dsh plugin --profile desktop add <本仓库绝对路径>`
+- **npm 包**：https://www.npmjs.com/package/dsh-pointer
 - **兼容与运行要求**：DeepSeek Harness `0.2.0-rc.2`（Windows 桌面版）；无需构建、无第三方依赖
 - **许可证**：MIT
 - **权限与外部服务**：不发起任何外部网络请求、无遥测。host 半边读取被预览的本地文件及其相对资源，并在 `127.0.0.1` 上注册两条本地路由；状态写入 `~/.dsh/`（`pointer-context.json` / `pointer-settings.json` / `pointer-debug.json`）。
@@ -88,7 +93,13 @@ host 处理文档的内存开销约为文件大小的 **6~7 倍**，因此默认
 ### 方式一：插件管理（最简单，推荐）
 
 1. DSH 左侧栏点 **插件** → 右上角 **添加插件**
-2. 输入本仓库地址：
+2. 输入 npm 包名：
+
+   ```
+   dsh-pointer
+   ```
+
+   也可以填源码地址（不需要 NPM 时）：
 
    ```
    https://github.com/Phonky-Chou/dsh-pointer
@@ -100,11 +111,10 @@ host 处理文档的内存开销约为文件大小的 **6~7 倍**，因此默认
    https://gitee.com/z_xl7974/dsh-pointer.git
    ```
 
-   > pnpm 只把 `.git` 结尾或 `git+https://` 开头的地址当 git 仓库；
-   > 漏掉 `.git` 会被当成压缩包去抓，安装报 `ERR_PNPM_TARBALL_EXTRACT`。
-   >
-   > 如果 HTTPS 地址失败，**不要**改用 `github:Phonky-Chou/dsh-pointer` 这种速记 ——
-   > 实测在部分网络下它会因 `git ls-remote` 失败而报错；`https://` 全写形式反而更稳。
+   > 填源码地址时的两个坑：
+   > pnpm 只把 `.git` 结尾或 `git+https://` 开头的地址当 git 仓库，漏掉 `.git` 会报
+   > `ERR_PNPM_TARBALL_EXTRACT`；另外**不要**用 `github:owner/repo` 速记，
+   > 实测在部分网络下会因 `git ls-remote` 失败而报错，`https://` 全写形式更稳。
 
 3. 安装完成后点对话框里的**立即启用**（没有这个按钮就忽略，见下一步）
 4. **重启 DeepSeek Harness**；重启后到 **插件 → dsh-pointer** 确认开关是打开状态
@@ -129,7 +139,11 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1 -Uninstall
 ### 方式三：手动
 
 ```sh
-dsh plugin --profile desktop add <repo路径或 github:Phonky-Chou/dsh-pointer>
+# 从 npm 安装（推荐）
+dsh plugin --profile desktop add dsh-pointer
+
+# 或从源码安装
+dsh plugin --profile desktop add https://github.com/Phonky-Chou/dsh-pointer
 ```
 
 Gitee 镜像要写全（带 `.git`）：
