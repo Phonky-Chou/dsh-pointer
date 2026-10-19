@@ -3,6 +3,17 @@
 在 DeepSeek Harness 的文档预览里直接「指代」UI 元素：**左键选中元素、右键拖拽框选区域**，
 把结构化信息 + **源码行号** 送进对话，模型据此精确定位要改的代码。
 
+## 收录信息
+
+- **一句话价值**：在 DSH 的 HTML 预览里直接圈选 DOM 元素 / 拖框选区域，把选择器与 `文件:行号` 精确交给 agent —— 不用再向模型描述「那个卡片」。
+- **能力分类**：界面与体验（interface）
+- **安装命令**：
+  - 源码安装（无需 NPM）：`dsh plugin --profile desktop add github:Phonky-Chou/dsh-pointer`
+  - 本地安装：`dsh plugin --profile desktop add <本仓库绝对路径>`
+- **兼容与运行要求**：DeepSeek Harness `0.2.0-rc.2`（Windows 桌面版）；无需构建、无第三方依赖
+- **许可证**：MIT
+- **权限与外部服务**：不发起任何外部网络请求、无遥测。host 半边读取被预览的本地文件及其相对资源，并在 `127.0.0.1` 上注册两条本地路由；状态写入 `~/.dsh/`（`pointer-context.json` / `pointer-settings.json` / `pointer-debug.json`）。
+
 ## 能力
 
 - **自注册预览实现**：插件注册自己的 `html` / `htm` 渲染器（`priority: 'extension'`），
