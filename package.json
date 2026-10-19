@@ -1,10 +1,26 @@
 {
   "name": "dsh-pointer",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.3.1",
   "type": "module",
-  "description": "In-preview element pointer (指代器) for DSH: pick elements inside previewable documents and feed structured context to the agent",
+  "description": "In-preview element pointer (指代器) for DSH: pick elements inside previewable documents and feed the agent a selector, outerHTML and file:line",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Phonky-Chou/dsh-pointer.git"
+  },
+  "homepage": "https://github.com/Phonky-Chou/dsh-pointer#readme",
+  "bugs": {
+    "url": "https://github.com/Phonky-Chou/dsh-pointer/issues"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "cordis-plugin",
+    "element-picker",
+    "html-preview",
+    "ai-agent"
+  ],
   "main": "lib/index.js",
   "exports": {
     ".": "./lib/index.js",
@@ -12,6 +28,9 @@
     "./package.json": "./package.json"
   },
   "files": ["lib/", "cordis.patch.yml"],
+  "publishConfig": {
+    "access": "public"
+  },
   "dsh": {
     "bundle": { "patch": "./cordis.patch.yml" },
     "client": { "platform": "web" }
