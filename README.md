@@ -29,6 +29,29 @@
 - **许可证**：MIT
 - **权限与外部服务**：不发起任何外部网络请求、无遥测。host 半边读取被预览的本地文件及其相对资源，并在 `127.0.0.1` 上注册两条本地路由；状态写入 `~/.dsh/`（`pointer-context.json` / `pointer-settings.json` / `pointer-debug.json`）。
 
+## 自定义插件市场（DSH「发现」标签页）
+
+DSH `0.2.1+` 提供实验性的**自定义插件市场**：启用后插件页会出现「发现」标签页，添加一个**索引源 URL** 即可在里面浏览并一键安装插件。本仓库自带一份符合 DSH 插件市场索引格式 1 的索引，可直接添加：
+
+```
+https://gitee.com/z_xl7974/dsh-pointer/raw/master/market/index.json
+```
+
+GitHub 镜像（需要能访问 `raw.githubusercontent.com`）：
+
+```
+https://raw.githubusercontent.com/Phonky-Chou/dsh-pointer/main/market/index.json
+```
+
+启用步骤：
+
+1. 插件页 → **实验性插件**旁的「更多」→ 启用**自定义插件市场**
+2. 打开 **发现** 标签页 → **添加索引源** → 粘贴上面的 URL
+3. 在列表里找到「指代器」→ **安装**（会执行 `pnpm add dsh-pointer@0.3.2`）→ 重启 DSH
+
+索引文件本身是 [`market/index.json`](market/index.json)，由本仓库维护；格式为 DSH 的
+`@deepseek-ai/dsh-plugin-market-index` 格式 1，可用官方校验器验证。
+
 ## 能力
 
 - **自注册预览实现**：插件注册自己的 `html` / `htm` 渲染器（`priority: 'extension'`），
